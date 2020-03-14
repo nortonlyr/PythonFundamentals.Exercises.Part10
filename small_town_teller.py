@@ -1,11 +1,7 @@
-cust_data = {}
-acc_data = {}
-acc_type = ['Checking', 'Savings']
-
 class Person:
 	def __init__(self, id, first_name, last_name):
-		self.id = id,
-		self.first_name = first_name,
+		self.id = id
+		self.first_name = first_name
 		self.last_name = last_name
 
 	def get_id(self):
@@ -18,57 +14,65 @@ class Person:
 		return self.last_name
 
 class Account:
-	def __init__(self, acc_number, acc_type, owner, balance = 0):
-		self.acc_number = acc_number,
-		self.acc_type = acc_type,
-		self.owner = owner,
+	def __init__(self, number, type, owner, balance = 0):
+		self.number = number
+		self.type = type
+		self.owner = owner
 		self.balance = balance
 
-class Bank(Person, Account):
-	def __init__(self):
-		pass
+class Bank():
+	cust_data = []
+	acc_data = {}
+	acc_type = ['Checking', 'Savings']
 
-	def add_customer(self, id, first_name, last_name):
-		if id in cust_data:
+	def add_customer(self, person):
+		if person.id in self.cust_data:
 			print('ID already exists')
 		else:
-			cust_data[id] = first_name + " " + last_name
-			print(f'Welcome {first_name + " " + last_name}, you new account ID is {id}')
+			self.cust_data.append(person.id)
 
-	def add_account(self, id, acc_number, type):
-		if id in cust_data and type == 'Checking':
-			acc_data[id] = {acc_number:type}
-			print(f'{cust_data[id]}, your {acc_type[0]} account is created.')
-		else:
-			id in cust_data and type == 'Savings'
-			acc_data[id] = {acc_number:type}
-			print(f'{cust_data[id]}, your {acc_type[1]} account is created.')
+	def add_account(self, account):
+		if account not in self.acc_data:
+			self.acc_data[account.number] = account.balance
 
 	def remove_account(self, account):
-		pass
+		if account in self.acc_data:
+			del[self.acc_data[account]]
 
-	def deposit(self):
-		amount = float(input('Please enter the deposit amount:'))
-		self.balance += amount
-		print(f'Deposit amount: {amount}')
+	def deposit(self, account, amount):
+		self.acc_data[account] += amount
 
-	def withdraw(self):
-		amount = float(input('Please enter the withdraw amount:'))
-		if self.balance >= amount:
-			self.balance -= amount
-			print(f'Your withdrawal amount is {amount}')
+
+	def withdraw(self, account, amount):
+		if self.acc_data[account] >= amount:
+			self.acc_data[account] -= amount
 		else:
 			print('Insufficient fund')
 
-	def balance_inquiry(self):
-		print(f'Your available balance: {self.balance}')
+	def balance_inquiry(self, account):
+		print(f'Your available balance: {self.acc_data[account]}')
 
 
 cust_bank = Bank()
-cust_bank.add_customer(1, 'Norton', 'Lee')
-cust_bank.add_customer(2, 'Jacky', 'Robinson')
-cust_bank.add_account(1, 1000, 'Checking')
-cust_bank.add_account(2, 560, 'Savings')
+Norton = Person(10101, 'Norton', 'Lee')
+
+cust_bank.add_customer(Norton)
+print(cust_bank.cust_data)
+
+
+Norton_Checking = Account(7000, 'Checking', Norton)
+print(cust_bank.acc_data)
+
+cust_bank.add_account(Norton_Checking)
+print(cust_bank.acc_data)
+
+cust_bank.deposit(7000, 10000)
+print(cust_bank.acc_data)
+
+cust_bank.withdraw(7000, 4000)
+print(cust_bank.acc_data)
+
+cust_bank.balance_inquiry(7000)
 
 
 """
