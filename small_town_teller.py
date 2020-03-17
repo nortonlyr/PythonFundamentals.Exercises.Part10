@@ -4,15 +4,6 @@ class Person:
 		self.first_name = first_name
 		self.last_name = last_name
 
-	def get_id(self):
-		return self.id_
-
-	def get_first_name(self):
-		return self.first_name
-
-	def get_last_name(self):
-		return self.last_name
-
 class Account:
 	def __init__(self, number, type, owner, balance = 0):
 		self.number = number
@@ -20,16 +11,16 @@ class Account:
 		self.owner = owner
 		self.balance = balance
 
-class Bank():
+class Bank:
 	cust_data = []
 	acc_data = {}
 	acc_type = ['Checking', 'Savings']
 
-	def add_customer(self, person):
-		if person.id in self.cust_data:
+	def add_customer(self, customer):
+		if customer.id in self.cust_data:
 			print('ID already exists')
 		else:
-			self.cust_data.append(person.id)
+			self.cust_data.append(customer.id)
 
 	def add_account(self, account):
 		if account not in self.acc_data:
